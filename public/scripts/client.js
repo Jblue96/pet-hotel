@@ -1,5 +1,3 @@
-
-
 $(document).ready(onReady);
 
 function onReady(){
@@ -43,6 +41,22 @@ $.ajax ({
     console.log('adding pet ->' , data);
   }
 });
+addTable();
+}
+
+// create sendClient function for dropdown
+function sendPet(){
+  console.log('send client to dropdown');
+  $.ajax({
+    url: '/getPets',
+    type: 'GET',
+    success: function(response){
+      console.log('getting clients', response);
+      for (var i = 0; i < response.length; i++) {
+        $('.savedOwners').append('<option>' + response[i].petname + " " + response[i].color + " " + response[i].color + '</option>');
+      }
+    }
+  });
 }
 
 // create sendClient function for dropdown
@@ -58,6 +72,22 @@ function sendClient(){
       }
     }
   });
+}
+
+function displayAll(response) {
+  $.ajax ({
+    url: '/getTable',
+    type: 'GET',
+    success: function(response){
+      console.log('back from server with all table:', response);
+      $('.newrow').remove();
+      for (var i = 0; i < response.length; i++) {
+        $('table').append('<tr class="newrow"></tr>');
+        $('.newrow').last().append('<td>'+response[i].firstname + " " + response[i].lastname+'</td><td>'+response[i].petname+'</td><td>'+response[i].breed+'</td><td>'+response[i].color+
+        '</td><td><button class="update">Go</button></td><td><button class="delete">Go</button></td><td><select class="checkinout"><option>In</option><option>Out</option></td>');
+      }  //end for loop
+    }  // end success
+  });  //end ajax
 }
 
 
